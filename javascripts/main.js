@@ -1,3 +1,7 @@
 "use strict";
- 
- console.log("working?");
+
+let events = require('./events');
+let apiKeys = require('./apiKeys');
+
+apiKeys.retrieveKeys();
+events.pressEnter();
