@@ -27,7 +27,6 @@ const tmdbConfiguration = () => {
 const getConfig = () => {
   tmdbConfiguration().then((results) => {
     imgConfig = results;
-    console.log(imgConfig);
   }).catch((error) => {
     console.log("Error in getConfig", error);
   });
@@ -51,7 +50,11 @@ const showResults = (movieArray) => {
   dom.domString(movieArray, imgConfig, 'movies');
 };
 
-module.exports = {setKey, searchMovies};
+const getImgConfig = () => {
+  return imgConfig;
+};
+
+module.exports = {setKey, searchMovies, getImgConfig};
 
 
 
