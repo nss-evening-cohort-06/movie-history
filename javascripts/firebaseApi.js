@@ -26,8 +26,11 @@ const getMovieList = () => {
 	return new Promise((resolve, reject) =>{
 		$.ajax(`${firebaseKey.databaseURL}/movies.json?orderBy="uid"&equalTo="${userUid}"`).then((fbMovies) =>{
 			if(fbMovies != null){
+				// fbMovies = {"movies0": {"title":"Star Wars", "overview":"so cool"}, "movies1": {"title":"Star Wars", "overview":"so cool"}}
+				// object.keys(fbMovies ) = ["movies0", "movies1"]
 				Object.keys(fbMovies).forEach((key) =>{
-					fbMovies[key].id = key;
+					// key = "movies0"
+					fbMovies[key].id = key;  // fbMovies["movies0"].id = "movies0"
 					movies.push(fbMovies[key]);
 				});
 			}

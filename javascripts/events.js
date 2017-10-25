@@ -48,7 +48,44 @@ const googleAuth = () => {
 };
 
 
+const wishListEvents = () => {
+	$('body').on('click', '.wishlist', (e) => {
+		console.log("wishlist event", e);
+		let mommy = e.target.closest('.movie');
+
+		let newMovie = {
+			"title":$(mommy).find('.title').html(),
+			"overview": $(mommy).find('.overview').html(),
+			"poster_path":$(mommy).find('.poster_path').attr('src').split('/').pop(),
+			"rating": 0,
+			"isWatched": false,
+			"uid": ""
+		};
+		console.log("newMovie", newMovie);
+		// firebaseApi.saveMovie().then().catch();
+
+	});
+};
 
 
 
-module.exports = {pressEnter, myLinks, googleAuth};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+module.exports = {pressEnter, myLinks, googleAuth, wishListEvents};
