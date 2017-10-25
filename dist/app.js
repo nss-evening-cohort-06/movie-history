@@ -41,7 +41,7 @@ const domString = (movieArray, imgConfig, divName) => {
     domString +=        `<h3 class="title">${movieArray[i].title}</h3>`;
     domString +=        `<p class="overview">${movieArray[i].overview}</p>`;
     domString +=        `<p>`;
-    domString +=           `<a href="#" class="btn btn-primary" role="button">Review</a>`;
+    domString +=           `<a class="btn btn-primary review" role="button">Review</a>`;
     domString +=           `<a class="btn btn-default wishlist" role="button">Wishlist</a>`;
     domString +=        `</p>`;
     domString +=        `</div>`;
@@ -118,7 +118,6 @@ const googleAuth = () => {
 
 const wishListEvents = () => {
 	$('body').on('click', '.wishlist', (e) => {
-		console.log("wishlist event", e);
 		let mommy = e.target.closest('.movie');
 
 		let newMovie = {
@@ -135,8 +134,37 @@ const wishListEvents = () => {
 		}).catch((err) =>{
 			console.log("error in saveMovie", err);
 		});
-
 	});
+};
+
+
+const reviewEvents = () => {
+	$('body').on('click', '.review', (e) => {
+		let mommy = e.target.closest('.movie');
+
+		let newMovie = {
+			"title":$(mommy).find('.title').html(),
+			"overview": $(mommy).find('.overview').html(),
+			"poster_path":$(mommy).find('.poster_path').attr('src').split('/').pop(),
+			"rating": 0,
+			"isWatched": true,
+			"uid": ""
+		};
+
+		firebaseApi.saveMovie(newMovie).then(() =>{
+			$(mommy).remove();
+		}).catch((err) =>{
+			console.log("error in saveMovie", err);
+		});
+	});
+};
+
+const init = () =>{
+	myLinks();
+	googleAuth();
+	pressEnter();
+	wishListEvents();
+	reviewEvents();
 };
 
 
@@ -144,23 +172,7 @@ const wishListEvents = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-module.exports = {pressEnter, myLinks, googleAuth, wishListEvents};
+module.exports = {init};
 },{"./dom":2,"./firebaseApi":4,"./tmdb":6}],4:[function(require,module,exports){
 "use strict";
 
@@ -248,10 +260,7 @@ let events = require('./events');
 let apiKeys = require('./apiKeys');
 
 apiKeys.retrieveKeys();
-events.myLinks();
-events.googleAuth();
-events.pressEnter();
-events.wishListEvents();
+events.init();
 },{"./apiKeys":1,"./events":3}],6:[function(require,module,exports){
 "use strict";
 
